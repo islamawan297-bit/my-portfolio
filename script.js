@@ -195,11 +195,44 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (isValid) {
-        // Show success state
-        if (successOverlay) {
-          successOverlay.classList.add('active');
-          contactForm.reset();
-        }
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Sending... <i data-lucide="loader" class="animate-spin"></i>';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        // Submit form using fetch to Formspree
+        const formData = new FormData(contactForm);
+
+        fetch("https://formspree.io/f/YOUR_FORMSPREE_ID", {
+          method: "POST",
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(response => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+
+          if (response.ok) {
+            if (successOverlay) {
+              successOverlay.classList.add('active');
+              contactForm.reset();
+            }
+          } else {
+            alert("Oops! There was a problem submitting your form. Make sure you set your correct Formspree ID.");
+          }
+        })
+        .catch(error => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          alert("Oops! There was a problem submitting your form.");
+        });
       }
     });
   }
