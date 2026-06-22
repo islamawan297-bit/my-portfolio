@@ -203,10 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.innerHTML = 'Sending... <i data-lucide="loader" class="animate-spin"></i>';
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
-        // Submit form using fetch to Formspree
+        // Submit form using fetch to FormSubmit.co
         const formData = new FormData(contactForm);
 
-        fetch("https://formspree.io/f/YOUR_FORMSPREE_ID", {
+        fetch("https://formsubmit.co/ajax/islamawan297@gmail.com", {
           method: "POST",
           body: formData,
           headers: {
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
               contactForm.reset();
             }
           } else {
-            alert("Oops! There was a problem submitting your form. Make sure you set your correct Formspree ID.");
+            alert("Oops! There was a problem submitting your form.");
           }
         })
         .catch(error => {
