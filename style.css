@@ -622,11 +622,17 @@ header .container {
 }
 
 .social-card-icon {
-  font-size: 3.5rem;
+  width: 55px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--accent-cyan);
+}
+
+.social-card:hover .skill-img-icon {
+  transform: scale(1.15) rotate(4deg);
+  filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.45));
 }
 
 .social-card-info {
