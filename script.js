@@ -203,10 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.innerHTML = 'Sending... <i data-lucide="loader" class="animate-spin"></i>';
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
-        // Submit form using fetch to FormSubmit.co
+        // Submit form using fetch to Formspree
         const formData = new FormData(contactForm);
 
-        fetch("https://formsubmit.co/ajax/islamawan297@gmail.com", {
+        fetch("https://formspree.io/f/xnjykbqa", {
           method: "POST",
           body: formData,
           headers: {
