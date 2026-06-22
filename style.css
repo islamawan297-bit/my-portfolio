@@ -87,6 +87,10 @@ section {
   position: relative;
 }
 
+section:not(.active) {
+  display: none !important;
+}
+
 /* Loading Screen */
 #loader-wrapper {
   position: fixed;

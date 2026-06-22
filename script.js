@@ -77,29 +77,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
   animateElements.forEach(el => observer.observe(el));
 
-  // Active Navigation Link on Scroll
-  const sections = document.querySelectorAll('section, header');
-  const navItems = document.querySelectorAll('.nav-link');
+  // Page-by-page navigation router
+  function showPage(targetId) {
+    if (!targetId || targetId === '#') {
+      targetId = 'home';
+    } else {
+      targetId = targetId.replace('#', '');
+    }
 
-  window.addEventListener('scroll', () => {
-    let currentSectionId = '';
-    const scrollPos = window.scrollY + 100; // Offset for header
-
+    // Hide all sections
+    const sections = document.querySelectorAll('section');
     sections.forEach(section => {
-      const top = section.offsetTop;
-      const height = section.offsetHeight;
-      if (scrollPos >= top && scrollPos < top + height) {
-        currentSectionId = section.getAttribute('id');
-      }
+      section.classList.remove('active');
     });
 
+    const activeSection = document.getElementById(targetId);
+    if (activeSection) {
+      activeSection.classList.add('active');
+      
+      // Also show social cards on projects page
+      if (targetId === 'projects') {
+        const socialCards = document.getElementById('social-cards');
+        if (socialCards) {
+          socialCards.classList.add('active');
+        }
+      }
+
+      // Trigger entrance animations for active section elements
+      const anims = activeSection.querySelectorAll('.animate-on-scroll');
+      anims.forEach(el => el.classList.add('animated'));
+
+      if (targetId === 'projects') {
+        const socialAnims = document.querySelectorAll('#social-cards .animate-on-scroll');
+        socialAnims.forEach(el => el.classList.add('animated'));
+      }
+    }
+
+    // Update active nav link
+    const navItems = document.querySelectorAll('.nav-link');
     navItems.forEach(item => {
       item.classList.remove('active');
-      if (item.getAttribute('href') === `#${currentSectionId}`) {
+      if (item.getAttribute('href') === `#${targetId}`) {
         item.classList.add('active');
       }
     });
+
+    // Scroll back to top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  // Handle routing via Hash
+  window.addEventListener('hashchange', () => {
+    showPage(window.location.hash);
   });
+
+  // Initial load navigation
+  showPage(window.location.hash);
 
   // Back to Top Button
   const backToTop = document.getElementById('back-to-top');
